@@ -1,35 +1,45 @@
 class_name Sandworm
 extends Node3D
 
-@export var target := Node3D
+@export var speed := 20
+@export var distance_constraint := 2
+@export var num_body_segments := 10
+@export var head_scene: PackedScene
+@export var body_scene: PackedScene
+@export var tail_scene: PackedScene
 
-@export var speed := 5.0
-@onready var skeleton := %Model/Armature/Skeleton3D as Skeleton3D
+var TOTAL_SEGMENTS = num_body_segments + 2
 
-var segments := []
+var segments: Array[Node3D] = []
 
 func _ready() -> void:
-	# for i in range(bone_count):
-	# 	var bone_pos := skeleton.get_bone_pose(i)
-	# 	print("Bone %d is %s" % [i, foo.global_position])
-	pass
+	_add_segment(head_scene.instantiate())
+	for i in range(num_body_segments):
+		_add_segment(body_scene.instantiate())
+	_add_segment(tail_scene.instantiate())
+
+func _add_segment(segment: Node3D) -> void:
+	add_child(segment)
+	segment.global_position = global_position
+	segments.push_back(segment)
 
 func _process(delta: float) -> void:
-	var bone_count = skeleton.get_bone_count()
+	var input_vector := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	var direction = Vector3(input_vector.x, -input_vector.y, 0)
+	_move(direction, delta)
 
-	# _look_at(bone_count - 1)
-	_move_to(bone_count - 1, delta)
+
+func _move(direction: Vector3, delta: float) -> void:
+	segments[0].global_position += speed * direction * delta
+	_pull()
 
 
-func _look_at(bone_index: int) -> void:
-	var bone_pos := skeleton.global_transform * skeleton.get_bone_global_pose(bone_index)
-	bone_pos = bone_pos.looking_at(target.global_position, Vector3(1, 0, 0))
-	bone_pos = skeleton.global_transform.affine_inverse() * bone_pos
-	skeleton.set_bone_global_pose(bone_index, bone_pos)
-
-func _move_to(bone_index: int, delta: float) -> void:
-	var bone_pos := skeleton.global_transform * skeleton.get_bone_global_pose(bone_index)
-	var translation = bone_pos.origin.direction_to(target.global_position) * speed * delta
-	bone_pos = bone_pos.translated(translation)
-	bone_pos = skeleton.global_transform.affine_inverse() * bone_pos
-	skeleton.set_bone_global_pose(bone_index, bone_pos)
+func _pull() -> void:
+	for i in range(1, TOTAL_SEGMENTS):
+		var prev = segments[i - 1].global_position
+		var curr = segments[i].global_position
+		var distance = curr.distance_to(prev)
+		if distance >= distance_constraint:
+			var direction = prev.direction_to(curr)
+			var target_pos = prev + direction * distance_constraint
+			segments[i].global_position = target_pos
