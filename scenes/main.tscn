@@ -40,6 +40,11 @@ environment = SubResource("Environment_jyhfs")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1869777364]
+transform = Transform3D(0.9999987, 0.0002192102, -0.0016281038, -0.00022388666, 0.9999958, -0.0028803884, 0.0016274672, 0.0028807838, 0.9999945, -0.14686418, -1.1133466, 1.0192108)
+use_collision = true
+size = Vector3(5.493393, 1, 19.534302)
+
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1147117979]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7756352, 0)
 script = ExtResource("1_o6xl0")
@@ -60,6 +65,7 @@ metadata/_edit_lock_ = true
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="." unique_id=2007248803]
 transform = Transform3D(0.9999987, 0.0002192102, -0.0016281038, -0.00022388666, 0.9999958, -0.0028804243, 0.0016274672, 0.0028807838, 0.9999945, 0, 3.9952393, 0)
+visible = false
 use_collision = true
 radius = 20.0
 height = 10.0
