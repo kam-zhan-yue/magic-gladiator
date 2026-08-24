@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://cbakrkkm084f5"]
 
 [ext_resource type="Script" uid="uid://ddbgdav17wcvw" path="res://scripts/sandworm.gd" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://d1pc87107vdhl" path="res://scripts/player.gd" id="1_o6xl0"]
 [ext_resource type="Script" uid="uid://ci7sy6pwrh50m" path="res://scripts/sandworm_controller.gd" id="2_tefeu"]
+[ext_resource type="Script" uid="uid://cyp8frvnitbgs" path="res://scripts/player_camera.gd" id="2_tipki"]
 [ext_resource type="PackedScene" uid="uid://wdjjmtu7lkmx" path="res://models/worm-tail.blend" id="3_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://xcwojmkjey6g" path="res://models/worm-body.blend" id="4_tefeu"]
 [ext_resource type="PackedScene" uid="uid://vmw0gd2mxqe6" path="res://models/worm-head.blend" id="5_o6xl0"]
@@ -19,6 +21,10 @@ sky = SubResource("Sky_sugp2")
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tbgi4"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tefeu"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbgi4"]
 albedo_color = Color(4.165, 0, 0, 1)
 
@@ -33,6 +39,24 @@ environment = SubResource("Environment_jyhfs")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1797310856]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1147117979]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7756352, 0)
+script = ExtResource("1_o6xl0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=1796193105]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_tbgi4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1905574937]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_tefeu")
+
+[node name="PlayerCamera" type="Camera3D" parent="CharacterBody3D/CollisionShape3D" unique_id=1691509125]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.47341532, 0)
+script = ExtResource("2_tipki")
+metadata/_edit_lock_ = true
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="." unique_id=2007248803]
 transform = Transform3D(0.9999987, 0.0002192102, -0.0016281038, -0.00022388666, 0.9999958, -0.0028804243, 0.0016274672, 0.0028807838, 0.9999945, 0, 3.9952393, 0)
@@ -66,6 +90,3 @@ unique_name_in_owner = true
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SandwormController/SandwormTarget" unique_id=1272493712]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 mesh = SubResource("SphereMesh_tbgi4")
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1691509125]
-transform = Transform3D(1, 0, 0, 0, 0.56088465, 0.827894, 0, -0.827894, 0.56088465, -1.4589486, 28.904554, 23.262747)
