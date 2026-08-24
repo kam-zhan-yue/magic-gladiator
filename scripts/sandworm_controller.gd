@@ -21,3 +21,5 @@ func _process(delta: float) -> void:
 	target_pos.x = cos(_time * frequency) * radius
 	target_pos.y = sin(_time * y_frequency) * y_radius
 	target_pos.z = sin(_time * frequency) * radius
+	target.global_position = target_pos
+	sandworm.chase(target_pos, delta)
