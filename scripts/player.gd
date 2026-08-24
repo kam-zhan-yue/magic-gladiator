@@ -6,12 +6,12 @@ extends CharacterBody3D
 @export_category("Movement Settings")
 @export var speed := 10.0
 @export var acceleration := 100.0
-@export var deceleration := 10.0
-
+@export var deceleration := 100.0
 
 @export_category("Jump Settings")
 @export var gravity = -10.0
-@onready var jump_count = 1
+@onready var jump_count = 2
+@onready var jump_speed = 5.0
 
 @export_category("Mouse Controls")
 @onready var mouse_sensitivity = 0.5
@@ -68,11 +68,15 @@ func _update_camera(delta: float) -> void:
 func _update_body(delta: float) -> void:
 	if not is_on_floor():
 		velocity += Vector3(0, gravity, 0) * delta
+		_jumps = max(_jumps, jump_count - 1)
+	else:
+		_jumps = jump_count
 
 	# Handle Jumping
 	if _jump_requested:
 		_jump_requested = false
-		_jump()
+		if _can_jump() or _can_double_jump():
+			_jump()
 	
 	# Handle Movement
 	var input_dir = Global.get_movement_input()
@@ -95,7 +99,12 @@ func _update_body(delta: float) -> void:
 			velocity.z = move_toward(velocity.z, 0, deceleration * delta)
 
 func _jump() -> void:
+	velocity.y = jump_speed
+	_jumps -= 1
 	pass
 
 func _can_jump() -> bool:
-	return is_on_floor() && _jumps > 0
+	return is_on_floor() and _jumps > 0
+
+func _can_double_jump() -> bool:
+	return not is_on_floor() and _jumps > 0
