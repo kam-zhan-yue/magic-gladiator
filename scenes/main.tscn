@@ -2,11 +2,15 @@
 
 [ext_resource type="Script" uid="uid://ddbgdav17wcvw" path="res://scripts/sandworm.gd" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://d1pc87107vdhl" path="res://scripts/player.gd" id="1_o6xl0"]
+[ext_resource type="Script" uid="uid://cldixequ2urc3" path="res://scripts/game_manager.gd" id="1_ya4ey"]
 [ext_resource type="Script" uid="uid://ci7sy6pwrh50m" path="res://scripts/sandworm_controller.gd" id="2_tefeu"]
 [ext_resource type="Script" uid="uid://cyp8frvnitbgs" path="res://scripts/player_camera.gd" id="2_tipki"]
 [ext_resource type="PackedScene" uid="uid://wdjjmtu7lkmx" path="res://models/worm-tail.blend" id="3_tbgi4"]
+[ext_resource type="Script" uid="uid://cfdftahtrviw6" path="res://scripts/spell_caster.gd" id="3_tipki"]
+[ext_resource type="Script" uid="uid://cchre33vkbfxr" path="res://scripts/spell_fireball.gd" id="4_choun"]
 [ext_resource type="PackedScene" uid="uid://xcwojmkjey6g" path="res://models/worm-body.blend" id="4_tefeu"]
 [ext_resource type="PackedScene" uid="uid://vmw0gd2mxqe6" path="res://models/worm-head.blend" id="5_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://c2i1avhfl85el" path="res://scenes/fireball.tscn" id="5_ya4ey"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0wfyh"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -25,13 +29,23 @@ glow_enabled = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tefeu"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o6xl0"]
+albedo_color = Color(1.2742168, 0.4145059, 0.3403929, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbgi4"]
 albedo_color = Color(4.165, 0, 0, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_tbgi4"]
 material = SubResource("StandardMaterial3D_tbgi4")
 
-[node name="Node3D" type="Node3D" unique_id=523338900]
+[node name="Main" type="Node3D" unique_id=523338900]
+
+[node name="GameManager" type="Node3D" parent="." unique_id=72747073 node_paths=PackedStringArray("projectile_holder")]
+script = ExtResource("1_ya4ey")
+projectile_holder = NodePath("Projectiles")
+
+[node name="Projectiles" type="Node3D" parent="GameManager" unique_id=373123140]
+unique_name_in_owner = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1178862078]
 environment = SubResource("Environment_jyhfs")
@@ -61,7 +75,25 @@ shape = SubResource("CapsuleShape3D_tefeu")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.47341532, 0)
 script = ExtResource("2_tipki")
-metadata/_edit_lock_ = true
+
+[node name="SpellCaster" type="Node3D" parent="CharacterBody3D/CollisionShape3D/PlayerCamera" unique_id=1102456833 node_paths=PackedStringArray("initial_spell")]
+script = ExtResource("3_tipki")
+initial_spell = NodePath("SpellFireball")
+
+[node name="Orb" type="CSGSphere3D" parent="CharacterBody3D/CollisionShape3D/PlayerCamera/SpellCaster" unique_id=1643087955]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5891441, -0.28747898, -0.6208885)
+radius = 0.2
+material = SubResource("StandardMaterial3D_o6xl0")
+
+[node name="SpellFireball" type="Node3D" parent="CharacterBody3D/CollisionShape3D/PlayerCamera/SpellCaster" unique_id=467747552]
+script = ExtResource("4_choun")
+fireball_scene = ExtResource("5_ya4ey")
+metadata/_custom_type_script = "uid://cchre33vkbfxr"
+
+[node name="ShotOrigin" type="Marker3D" parent="CharacterBody3D/CollisionShape3D/PlayerCamera/SpellCaster/SpellFireball" unique_id=1820332861]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25364554, -1)
 
 [node name="SandwormController" type="Node3D" parent="." unique_id=1512630066]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.51886, 0)
