@@ -4,9 +4,7 @@ extends Node3D
 @export var speed := 12.0
 @export var distance_constraint := 1.5
 @export var num_body_segments := 10
-@export var head_scene: PackedScene
-@export var body_scene: PackedScene
-@export var tail_scene: PackedScene
+@export var segment_scene: PackedScene
 
 const BASICALLY_ZERO = 0.001
 @export var initial_offset := Vector3(-distance_constraint, 0 ,0)
@@ -15,12 +13,11 @@ var segments: Array[SandwormSegment] = []
 
 # ========= Public Methods ============
 func init() -> void:
-	_add_segment(head_scene.instantiate())
+	_add_segment(0, SandwormSegment.Type.Head)
 	for i in range(num_body_segments):
-		_add_segment(body_scene.instantiate())
-	_add_segment(tail_scene.instantiate())
-
-	_init_segments()
+		_add_segment(i + 1, SandwormSegment.Type.Body)
+	_add_segment(len(segments), SandwormSegment.Type.Tail)
+	_reset_segment_positions()
 
 
 func get_head() -> Node3D:
@@ -44,16 +41,15 @@ func _get_total_segments() -> int:
 	return num_body_segments + 2
 
 
-func _add_segment(segment: Node3D) -> void:
+func _add_segment(index: int, type: SandwormSegment.Type) -> void:
+	var segment = segment_scene.instantiate() as SandwormSegment
 	add_child(segment)
-	segments.push_back(segment as SandwormSegment)
 	segment.global_position = global_position + initial_offset * len(segments)
+	segment.init(self, type, index)
+	segments.push_back(segment)
 
 
-func _init_segments() -> void:
-	for i in range(len(segments)):
-		segments[i].init(self, i)
-
+func _reset_segment_positions() -> void:
 	_pull_segment_force(0, segments[0].global_position - initial_offset)
 	for i in range(1, _get_total_segments()):
 		_pull_segment_force(i, segments[i - 1].global_position)

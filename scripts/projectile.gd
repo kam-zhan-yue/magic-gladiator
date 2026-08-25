@@ -21,7 +21,16 @@ func simulate(delta: float) -> void:
 	global_position += _launch_velocity * delta
 
 func _body_entered(body: Node3D) -> void:
-	hit(body)
+	var hit_box = _find_hit_box(body)
+	hit(hit_box)
 	Projectiles.remove(self)
 
-@abstract func hit(body: Node3D) -> void
+func _find_hit_box(node: Node3D) -> HitBox:
+	if node is HitBox:
+		return node as HitBox
+	var node_parent = node.get_parent()
+	if node_parent:
+		return _find_hit_box(node_parent)
+	return null
+
+@abstract func hit(hit_box: HitBox) -> void

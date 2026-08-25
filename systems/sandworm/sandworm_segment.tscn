@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bjqgs6id4odbb"]
+
+[ext_resource type="Script" uid="uid://cdur2gsk8extq" path="res://scripts/sandworm_segment.gd" id="1_t2hxi"]
+[ext_resource type="PackedScene" uid="uid://vmw0gd2mxqe6" path="res://models/worm-head.blend" id="2_26o3n"]
+[ext_resource type="PackedScene" uid="uid://xcwojmkjey6g" path="res://models/worm-body.blend" id="2_t2hxi"]
+[ext_resource type="Script" uid="uid://c782oaaum8vjk" path="res://scripts/hit_box.gd" id="3_pfvh6"]
+[ext_resource type="PackedScene" uid="uid://wdjjmtu7lkmx" path="res://models/worm-tail.blend" id="4_ttfgp"]
+
+[node name="SandwormSegment" type="Node3D" unique_id=367404564]
+script = ExtResource("1_t2hxi")
+head_model = ExtResource("2_26o3n")
+body_model = ExtResource("2_t2hxi")
+tail_model = ExtResource("4_ttfgp")
+
+[node name="HitBox" type="Node3D" parent="." unique_id=1135069231]
+unique_name_in_owner = true
+script = ExtResource("3_pfvh6")
+metadata/_custom_type_script = "uid://c782oaaum8vjk"

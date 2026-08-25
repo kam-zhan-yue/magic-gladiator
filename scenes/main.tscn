@@ -8,9 +8,7 @@
 [ext_resource type="Script" uid="uid://cfdftahtrviw6" path="res://scripts/spell_caster.gd" id="3_tipki"]
 [ext_resource type="Script" uid="uid://cchre33vkbfxr" path="res://scripts/spell_fireball.gd" id="4_choun"]
 [ext_resource type="PackedScene" uid="uid://c2i1avhfl85el" path="res://scenes/fireball.tscn" id="5_ya4ey"]
-[ext_resource type="PackedScene" uid="uid://do445l1eqn3a" path="res://systems/sandworm/segment_head.tscn" id="9_ya4ey"]
-[ext_resource type="PackedScene" uid="uid://bjqgs6id4odbb" path="res://systems/sandworm/segment_body.tscn" id="10_eb6dy"]
-[ext_resource type="PackedScene" uid="uid://jsuipt3d88oi" path="res://systems/sandworm/segment_tail.tscn" id="11_trceg"]
+[ext_resource type="PackedScene" uid="uid://bjqgs6id4odbb" path="res://systems/sandworm/sandworm_segment.tscn" id="9_85g3d"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0wfyh"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -102,9 +100,7 @@ metadata/_custom_type_script = "uid://ci7sy6pwrh50m"
 [node name="Sandworm" type="Node3D" parent="SandwormController" unique_id=1414786127]
 unique_name_in_owner = true
 script = ExtResource("1_0wfyh")
-head_scene = ExtResource("9_ya4ey")
-body_scene = ExtResource("10_eb6dy")
-tail_scene = ExtResource("11_trceg")
+segment_scene = ExtResource("9_85g3d")
 metadata/_custom_type_script = "uid://ddbgdav17wcvw"
 
 [node name="SandwormTarget" type="Node3D" parent="SandwormController" unique_id=790334092]

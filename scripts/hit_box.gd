@@ -1,5 +1,5 @@
 class_name HitBox
-extends PhysicsBody3D
+extends Node3D
 
 signal on_hit(damage: float)
 
