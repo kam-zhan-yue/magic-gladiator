@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://c0khuc0bo3h61"]
+
+[ext_resource type="Script" uid="uid://ci7sy6pwrh50m" path="res://scripts/sandworm_controller.gd" id="1_2xjpv"]
+[ext_resource type="PackedScene" uid="uid://cycynlkqqbpr4" path="res://systems/sandworm/sandworm.tscn" id="2_vaqxf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbgi4"]
+albedo_color = Color(4.165, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_tbgi4"]
+material = SubResource("StandardMaterial3D_tbgi4")
+
+[node name="SandwormController" type="Node3D" unique_id=1952678828]
+script = ExtResource("1_2xjpv")
+sandworm_scene = ExtResource("2_vaqxf")
+metadata/_custom_type_script = "uid://ci7sy6pwrh50m"
+
+[node name="SandwormTarget" type="Node3D" parent="." unique_id=417453501]
+unique_name_in_owner = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SandwormTarget" unique_id=1514223062]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+mesh = SubResource("SphereMesh_tbgi4")

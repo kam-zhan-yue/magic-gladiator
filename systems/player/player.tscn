@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://dwt8km2ldudsw"]
+
+[ext_resource type="Script" uid="uid://d1pc87107vdhl" path="res://scripts/player.gd" id="1_e4lrk"]
+[ext_resource type="Script" uid="uid://cyp8frvnitbgs" path="res://scripts/player_camera.gd" id="2_4khys"]
+[ext_resource type="Script" uid="uid://cfdftahtrviw6" path="res://scripts/spell_caster.gd" id="3_7n85q"]
+[ext_resource type="Script" uid="uid://cchre33vkbfxr" path="res://scripts/spell_fireball.gd" id="4_abymp"]
+[ext_resource type="PackedScene" uid="uid://c2i1avhfl85el" path="res://scenes/fireball.tscn" id="5_6ddj1"]
+[ext_resource type="Script" uid="uid://bpj20sbnin8ds" path="res://scripts/spell_gust.gd" id="6_4khys"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tbgi4"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tefeu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o6xl0"]
+albedo_color = Color(1.2742168, 0.4145059, 0.3403929, 1)
+
+[node name="Player" type="CharacterBody3D" unique_id=674897594]
+script = ExtResource("1_e4lrk")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=426978081]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_tbgi4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=805977378]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_tefeu")
+
+[node name="PlayerCamera" type="Camera3D" parent="CollisionShape3D" unique_id=785830342]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.47341532, 0)
+script = ExtResource("2_4khys")
+
+[node name="SpellCaster" type="Node3D" parent="CollisionShape3D/PlayerCamera" unique_id=1236167027 node_paths=PackedStringArray("initial_spell")]
+unique_name_in_owner = true
+script = ExtResource("3_7n85q")
+initial_spell = NodePath("Spells/SpellFireball")
+
+[node name="Orb" type="CSGSphere3D" parent="CollisionShape3D/PlayerCamera/SpellCaster" unique_id=2128086277]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5891441, -0.28747898, -0.6208885)
+radius = 0.2
+material = SubResource("StandardMaterial3D_o6xl0")
+
+[node name="Spells" type="Node3D" parent="CollisionShape3D/PlayerCamera/SpellCaster" unique_id=1421799102]
+unique_name_in_owner = true
+
+[node name="SpellFireball" type="Node3D" parent="CollisionShape3D/PlayerCamera/SpellCaster/Spells" unique_id=595506078]
+script = ExtResource("4_abymp")
+fireball_scene = ExtResource("5_6ddj1")
+orb_color = Color(1.753959, 0.38896063, 0.4629261, 1)
+metadata/_custom_type_script = "uid://cchre33vkbfxr"
+
+[node name="ShotOrigin" type="Marker3D" parent="CollisionShape3D/PlayerCamera/SpellCaster/Spells/SpellFireball" unique_id=1158399636]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25364554, -1)
+
+[node name="SpellGust" type="Node3D" parent="CollisionShape3D/PlayerCamera/SpellCaster/Spells" unique_id=699475821]
+script = ExtResource("6_4khys")
+orb_color = Color(2.1133707, 2.1133707, 2.1133707, 1)
+metadata/_custom_type_script = "uid://bpj20sbnin8ds"

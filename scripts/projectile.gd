@@ -25,7 +25,7 @@ func _body_entered(body: Node3D) -> void:
 	hit(hit_box)
 	Projectiles.remove(self)
 
-func _find_hit_box(node: Node3D) -> HitBox:
+func _find_hit_box(node: Node) -> HitBox:
 	if node is HitBox:
 		return node as HitBox
 	var node_parent = node.get_parent()

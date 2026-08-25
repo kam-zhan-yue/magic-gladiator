@@ -13,9 +13,6 @@ var _sandworms: Array[Sandworm] = []
 
 var _time = 0.0
 
-func _ready() -> void:
-	init()
-
 func init() -> void:
 	var sandworm := _instantiate_sandworm()
 	sandworm.init_controller(self)

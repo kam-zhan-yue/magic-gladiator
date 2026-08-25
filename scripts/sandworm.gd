@@ -27,7 +27,6 @@ func init_with_segments(segments: Array[SandwormSegment]) -> void:
 		if i == 0:
 			_segments[i].init(self, i, SandwormSegment.Type.Head)
 		elif i == len(_segments) - 1:
-			print("initing tail")
 			_segments[i].init(self, i, SandwormSegment.Type.Tail)
 		else:
 			_segments[i].init(self, i, SandwormSegment.Type.Body)
