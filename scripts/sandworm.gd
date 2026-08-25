@@ -14,21 +14,23 @@ var _controller: SandwormController
 var _segments: Array[SandwormSegment] = []
 
 # ========= Public Methods ============
-func init(controller: SandwormController) -> void:
-	for i in range(num_segments):
-		_spawn_segment()
-	init_segments(controller, _segments)
-	_reset_segment_positions()
-
-func init_segments(controller: SandwormController, segments: Array[SandwormSegment]) -> void:
+func init_controller(controller: SandwormController) -> void:
 	_controller = controller
-	for i in range(len(segments)):
+
+func init_own_segments() -> void:
+	var segments = _spawn_segments()
+	init_with_segments(segments)
+
+func init_with_segments(segments: Array[SandwormSegment]) -> void:
+	_segments = segments
+	for i in range(len(_segments)):
 		if i == 0:
-			segments[i].init(self, i, SandwormSegment.Type.Head)
-		elif i == len(segments) - 1:
-			segments[i].init(self, i, SandwormSegment.Type.Tail)
+			_segments[i].init(self, i, SandwormSegment.Type.Head)
+		elif i == len(_segments) - 1:
+			_segments[i].init(self, i, SandwormSegment.Type.Tail)
 		else:
-			segments[i].init(self, i, SandwormSegment.Type.Body)
+			_segments[i].init(self, i, SandwormSegment.Type.Body)
+	_reset_segment_positions()
 
 func get_head() -> Node3D:
 	return _segments[0]
@@ -65,15 +67,19 @@ func _get_total_segments() -> int:
 	return len(_segments)
 
 
-func _spawn_segment() -> void:
-	var segment = segment_scene.instantiate() as SandwormSegment
-	add_child(segment)
-	segment.global_position = global_position + initial_offset * len(_segments)
-	_segments.push_back(segment)
-
+func _spawn_segments() -> Array[SandwormSegment]:
+	var segments: Array[SandwormSegment] = []
+	for i in range(num_segments):
+		var segment = segment_scene.instantiate() as SandwormSegment
+		add_child(segment)
+		segment.global_position = global_position + initial_offset * len(_segments)
+		segments.push_back(segment)
+	return segments
 
 
 func _reset_segment_positions() -> void:
+	if len(_segments) == 0:
+		return
 	_pull_segment_force(0, _segments[0].global_position - initial_offset)
 	for i in range(1, _get_total_segments()):
 		_pull_segment_force(i, _segments[i - 1].global_position)

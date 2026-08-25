@@ -17,12 +17,16 @@ func _ready() -> void:
 	init()
 
 func init() -> void:
+	var sandworm := _instantiate_sandworm()
+	sandworm.init_controller(self)
+	sandworm.init_own_segments()
+	target.global_position = sandworm.get_head().global_position
+
+func _instantiate_sandworm() -> Sandworm:
 	var sandworm := sandworm_scene.instantiate() as Sandworm
 	add_child(sandworm)
-	sandworm.init(self)
 	_sandworms.push_back(sandworm)
-
-	target.global_position = sandworm.get_head().global_position
+	return sandworm
 
 func _process(delta: float) -> void:
 	_time += delta
@@ -39,6 +43,6 @@ func _process(delta: float) -> void:
 func split(segments: Array[SandwormSegment]) -> void:
 	for segment in segments:
 		segment.uninit()
-	# var tail_segments = sandworm.get_tail_segments(segment_index)
-	# if segment_
-	pass
+	var sandworm := _instantiate_sandworm()
+	sandworm.init_controller(self)
+	sandworm.init_with_segments(segments)

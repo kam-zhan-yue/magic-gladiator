@@ -27,6 +27,7 @@ func _init_model(type: Type) -> void:
 		return
 
 	if _model:
+		print("removing")
 		_model.queue_free()
 	match _type:
 		Type.Head:
