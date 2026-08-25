@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://cbakrkkm084f5"]
 
-[ext_resource type="Script" uid="uid://ddbgdav17wcvw" path="res://scripts/sandworm.gd" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://d1pc87107vdhl" path="res://scripts/player.gd" id="1_o6xl0"]
 [ext_resource type="Script" uid="uid://cldixequ2urc3" path="res://scripts/game_manager.gd" id="1_ya4ey"]
+[ext_resource type="Script" uid="uid://c782oaaum8vjk" path="res://scripts/hit_box.gd" id="2_choun"]
 [ext_resource type="Script" uid="uid://ci7sy6pwrh50m" path="res://scripts/sandworm_controller.gd" id="2_tefeu"]
 [ext_resource type="Script" uid="uid://cyp8frvnitbgs" path="res://scripts/player_camera.gd" id="2_tipki"]
 [ext_resource type="Script" uid="uid://cfdftahtrviw6" path="res://scripts/spell_caster.gd" id="3_tipki"]
 [ext_resource type="Script" uid="uid://cchre33vkbfxr" path="res://scripts/spell_fireball.gd" id="4_choun"]
 [ext_resource type="PackedScene" uid="uid://c2i1avhfl85el" path="res://scenes/fireball.tscn" id="5_ya4ey"]
-[ext_resource type="PackedScene" uid="uid://bjqgs6id4odbb" path="res://systems/sandworm/sandworm_segment.tscn" id="9_85g3d"]
+[ext_resource type="PackedScene" uid="uid://cycynlkqqbpr4" path="res://systems/sandworm/sandworm.tscn" id="9_85g3d"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0wfyh"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -44,17 +44,20 @@ script = ExtResource("1_ya4ey")
 [node name="Projectiles" type="Node3D" parent="GameManager" unique_id=373123140]
 unique_name_in_owner = true
 
+[node name="Level" type="Node3D" parent="." unique_id=1937750007]
+script = ExtResource("2_choun")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Level" unique_id=1869777364]
+transform = Transform3D(0.9999987, 0.0002192102, -0.0016281038, -0.00022388666, 0.9999958, -0.0028803884, 0.0016274672, 0.0028807838, 0.9999945, -0.5565371, -1.0886445, -7.524439)
+use_collision = true
+size = Vector3(40.05981, 1, 57.043594)
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1178862078]
 environment = SubResource("Environment_jyhfs")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1797310856]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
-
-[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1869777364]
-transform = Transform3D(0.9999987, 0.0002192102, -0.0016281038, -0.00022388666, 0.9999958, -0.0028803884, 0.0016274672, 0.0028807838, 0.9999945, -0.5565371, -1.0886445, -7.524439)
-use_collision = true
-size = Vector3(40.05981, 1, 57.043594)
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1147117979]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7756352, 0)
@@ -95,13 +98,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25364554, -1)
 [node name="SandwormController" type="Node3D" parent="." unique_id=1512630066]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.51886, 0)
 script = ExtResource("2_tefeu")
+sandworm_scene = ExtResource("9_85g3d")
 metadata/_custom_type_script = "uid://ci7sy6pwrh50m"
-
-[node name="Sandworm" type="Node3D" parent="SandwormController" unique_id=1414786127]
-unique_name_in_owner = true
-script = ExtResource("1_0wfyh")
-segment_scene = ExtResource("9_85g3d")
-metadata/_custom_type_script = "uid://ddbgdav17wcvw"
 
 [node name="SandwormTarget" type="Node3D" parent="SandwormController" unique_id=790334092]
 unique_name_in_owner = true

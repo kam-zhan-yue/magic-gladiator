@@ -1,31 +1,43 @@
 class_name Sandworm
 extends Node3D
 
+const BASICALLY_ZERO = 0.001
+
 @export var speed := 12.0
 @export var distance_constraint := 1.5
-@export var num_body_segments := 10
+@export var num_segments := 10
 @export var segment_scene: PackedScene
-
-const BASICALLY_ZERO = 0.001
 @export var initial_offset := Vector3(-distance_constraint, 0 ,0)
 
-var segments: Array[SandwormSegment] = []
+var _controller: SandwormController
+
+var _segments: Array[SandwormSegment] = []
 
 # ========= Public Methods ============
-func init() -> void:
-	_add_segment(0, SandwormSegment.Type.Head)
-	for i in range(num_body_segments):
-		_add_segment(i + 1, SandwormSegment.Type.Body)
-	_add_segment(len(segments), SandwormSegment.Type.Tail)
+func init(controller: SandwormController) -> void:
+	for i in range(num_segments):
+		_spawn_segment()
+	init_segments(controller, _segments)
 	_reset_segment_positions()
 
+func init_segments(controller: SandwormController, segments: Array[SandwormSegment]) -> void:
+	_controller = controller
+	for i in range(len(segments)):
+		if i == 0:
+			segments[i].init(self, i, SandwormSegment.Type.Head)
+		elif i == len(segments) - 1:
+			segments[i].init(self, i, SandwormSegment.Type.Tail)
+		else:
+			segments[i].init(self, i, SandwormSegment.Type.Body)
 
 func get_head() -> Node3D:
-	return segments[0]
+	return _segments[0]
 
 
 func chase(target_pos: Vector3, delta: float) -> void:
-	var direction = segments[0].global_position.direction_to(target_pos)
+	if len(_segments) == 0: 
+		return
+	var direction = _segments[0].global_position.direction_to(target_pos)
 	_move_towards_direction(direction, delta)
 
 
@@ -33,26 +45,38 @@ func hit(_damage: float, _segment: int) -> void:
 	pass
 
 
-func segment_destroyed(_segment: int) -> void:
-	pass
+func segment_destroyed(index: int) -> void:
+	print("segments: ", len(_segments), "index: ", index)
+
+	var segment = _segments[index]
+	segment.queue_free()
+
+	var head_segments := _segments.slice(0, index)
+	var tail_segments := _segments.slice(index + 1, len(_segments))
+
+	# Split the head!
+	_segments = head_segments
+
+	# Split the tail!
+	_controller.split(tail_segments)
 
 # ========= Private Methods ============
 func _get_total_segments() -> int:
-	return num_body_segments + 2
+	return len(_segments)
 
 
-func _add_segment(index: int, type: SandwormSegment.Type) -> void:
+func _spawn_segment() -> void:
 	var segment = segment_scene.instantiate() as SandwormSegment
 	add_child(segment)
-	segment.global_position = global_position + initial_offset * len(segments)
-	segment.init(self, type, index)
-	segments.push_back(segment)
+	segment.global_position = global_position + initial_offset * len(_segments)
+	_segments.push_back(segment)
+
 
 
 func _reset_segment_positions() -> void:
-	_pull_segment_force(0, segments[0].global_position - initial_offset)
+	_pull_segment_force(0, _segments[0].global_position - initial_offset)
 	for i in range(1, _get_total_segments()):
-		_pull_segment_force(i, segments[i - 1].global_position)
+		_pull_segment_force(i, _segments[i - 1].global_position)
 
 
 func _move_towards_direction(direction: Vector3, delta: float) -> void:
@@ -63,41 +87,41 @@ func _move_towards_direction(direction: Vector3, delta: float) -> void:
 func _look_at(direction: Vector3, delta: float) -> void:
 	if direction.length() <= 0:
 		return
-	var target_pos = segments[0].global_position + speed * direction * delta
+	var target_pos = _segments[0].global_position + speed * direction * delta
 	_pull_segment(0, target_pos, delta)
 
 	for i in range(1, _get_total_segments()):
-		_pull_segment(i, segments[i - 1].global_position, delta) 
+		_pull_segment(i, _segments[i - 1].global_position, delta) 
 
 
 func _pull_segment_force(index: int, target_pos: Vector3) -> void:
-	var current_transform = segments[index].global_transform
+	var current_transform = _segments[index].global_transform
 	if current_transform.origin.distance_to(target_pos) <= BASICALLY_ZERO:
 		return
 	var target_transform = current_transform.looking_at(target_pos)
-	segments[index].global_transform.basis = target_transform.basis
+	_segments[index].global_transform.basis = target_transform.basis
 
 
 func _pull_segment(index: int, target_pos: Vector3, delta: float) -> void:
-	var current_transform = segments[index].global_transform
+	var current_transform = _segments[index].global_transform
 	if current_transform.origin.distance_to(target_pos) <= BASICALLY_ZERO:
 		return
 	var target_transform = current_transform.looking_at(target_pos)
 	var weight = 1.0 - exp(-10.0 * delta)
-	segments[index].global_transform.basis = current_transform.basis.slerp(target_transform.basis, weight)
+	_segments[index].global_transform.basis = current_transform.basis.slerp(target_transform.basis, weight)
 
 
 func _move(direction: Vector3, delta: float) -> void:
-	segments[0].global_position += speed * direction * delta
+	_segments[0].global_position += speed * direction * delta
 	_pull()
 
 
 func _pull() -> void:
 	for i in range(1, _get_total_segments()):
-		var prev = segments[i - 1].global_position
-		var curr = segments[i].global_position
+		var prev = _segments[i - 1].global_position
+		var curr = _segments[i].global_position
 		var distance = curr.distance_to(prev)
 		if distance >= distance_constraint:
 			var direction = prev.direction_to(curr)
 			var target_pos = prev + direction * distance_constraint
-			segments[i].global_position = target_pos
+			_segments[i].global_position = target_pos

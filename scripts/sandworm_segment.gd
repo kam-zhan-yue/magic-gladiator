@@ -16,14 +16,16 @@ var _health: float
 var _sandworm: Sandworm
 var _segment_index: int
 
-func init(sandworm: Sandworm, type: Type, index: int) -> void:
-	_type = type
+func init(sandworm: Sandworm, index: int, type: Type) -> void:
 	_sandworm = sandworm
 	_segment_index = index
-	_init_model()
+	_init_model(type)
 	hit_box.on_hit.connect(_hit)
 
-func _init_model() -> void:
+func _init_model(type: Type) -> void:
+	if _model and _type == type:
+		return
+
 	if _model:
 		_model.queue_free()
 	match _type:
@@ -34,6 +36,7 @@ func _init_model() -> void:
 		Type.Tail:
 			_model = tail_model.instantiate()
 	hit_box.add_child(_model)
+	_type = type
 
 
 func _hit(damage: float) -> void:
@@ -41,7 +44,8 @@ func _hit(damage: float) -> void:
 	print("health is now", _health)
 	if _health <= 0:
 		_sandworm.segment_destroyed(_segment_index)
-	_sandworm.hit(damage, _segment_index)
+	else:
+		_sandworm.hit(damage, _segment_index)
 
 func uninit() -> void:
 	hit_box.on_hit.disconnect(_hit)

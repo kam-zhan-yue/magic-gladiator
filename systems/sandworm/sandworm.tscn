@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://cycynlkqqbpr4"]
+
+[ext_resource type="Script" uid="uid://ddbgdav17wcvw" path="res://scripts/sandworm.gd" id="1_bitlm"]
+[ext_resource type="PackedScene" uid="uid://bjqgs6id4odbb" path="res://systems/sandworm/sandworm_segment.tscn" id="2_176xq"]
+
+[node name="Sandworm" type="Node3D" unique_id=107374301]
+script = ExtResource("1_bitlm")
+segment_scene = ExtResource("2_176xq")
+metadata/_custom_type_script = "uid://ddbgdav17wcvw"
