@@ -9,8 +9,6 @@ enum Type { Head, Body, Tail }
 @export var body_model: PackedScene
 @export var tail_model: PackedScene
 
-var _model: Node3D
-
 var _type: Type
 var _health: float
 var _sandworm: Sandworm
@@ -23,26 +21,30 @@ func init(sandworm: Sandworm, index: int, type: Type) -> void:
 	hit_box.on_hit.connect(_hit)
 
 func _init_model(type: Type) -> void:
-	if _model and _type == type:
+	if hit_box.get_child_count() > 0 and _type == type:
 		return
 
-	if _model:
-		print("removing")
-		_model.queue_free()
-	match _type:
-		Type.Head:
-			_model = head_model.instantiate()
-		Type.Body:
-			_model = body_model.instantiate()
-		Type.Tail:
-			_model = tail_model.instantiate()
-	hit_box.add_child(_model)
+	for child in hit_box.get_children():
+		child.queue_free()
+
+	var model := _instantiate_model(type)
+	hit_box.add_child(model)
 	_type = type
+
+func _instantiate_model(type: Type) -> Node3D:
+	match type:
+		Type.Head:
+			return head_model.instantiate()
+		Type.Body:
+			return body_model.instantiate()
+		Type.Tail:
+			return tail_model.instantiate()
+		_:
+			return body_model.instantiate()
 
 
 func _hit(damage: float) -> void:
 	_health -= damage
-	print("health is now", _health)
 	if _health <= 0:
 		_sandworm.segment_destroyed(_segment_index)
 	else:

@@ -41,8 +41,6 @@ func _process(delta: float) -> void:
 		sandworm.chase(target_pos, delta)
 
 func split(segments: Array[SandwormSegment]) -> void:
-	for segment in segments:
-		segment.uninit()
 	var sandworm := _instantiate_sandworm()
 	sandworm.init_controller(self)
 	sandworm.init_with_segments(segments)

@@ -27,6 +27,7 @@ func init_with_segments(segments: Array[SandwormSegment]) -> void:
 		if i == 0:
 			_segments[i].init(self, i, SandwormSegment.Type.Head)
 		elif i == len(_segments) - 1:
+			print("initing tail")
 			_segments[i].init(self, i, SandwormSegment.Type.Tail)
 		else:
 			_segments[i].init(self, i, SandwormSegment.Type.Body)
@@ -48,7 +49,8 @@ func hit(_damage: float, _segment: int) -> void:
 
 
 func segment_destroyed(index: int) -> void:
-	print("segments: ", len(_segments), "index: ", index)
+	for segment in _segments:
+		segment.uninit()
 
 	var segment = _segments[index]
 	segment.queue_free()
@@ -57,7 +59,7 @@ func segment_destroyed(index: int) -> void:
 	var tail_segments := _segments.slice(index + 1, len(_segments))
 
 	# Split the head!
-	_segments = head_segments
+	init_with_segments(head_segments)
 
 	# Split the tail!
 	_controller.split(tail_segments)
