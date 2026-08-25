@@ -5,12 +5,12 @@
 [ext_resource type="Script" uid="uid://cldixequ2urc3" path="res://scripts/game_manager.gd" id="1_ya4ey"]
 [ext_resource type="Script" uid="uid://ci7sy6pwrh50m" path="res://scripts/sandworm_controller.gd" id="2_tefeu"]
 [ext_resource type="Script" uid="uid://cyp8frvnitbgs" path="res://scripts/player_camera.gd" id="2_tipki"]
-[ext_resource type="PackedScene" uid="uid://wdjjmtu7lkmx" path="res://models/worm-tail.blend" id="3_tbgi4"]
 [ext_resource type="Script" uid="uid://cfdftahtrviw6" path="res://scripts/spell_caster.gd" id="3_tipki"]
 [ext_resource type="Script" uid="uid://cchre33vkbfxr" path="res://scripts/spell_fireball.gd" id="4_choun"]
-[ext_resource type="PackedScene" uid="uid://xcwojmkjey6g" path="res://models/worm-body.blend" id="4_tefeu"]
-[ext_resource type="PackedScene" uid="uid://vmw0gd2mxqe6" path="res://models/worm-head.blend" id="5_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://c2i1avhfl85el" path="res://scenes/fireball.tscn" id="5_ya4ey"]
+[ext_resource type="PackedScene" uid="uid://do445l1eqn3a" path="res://systems/sandworm/segment_head.tscn" id="9_ya4ey"]
+[ext_resource type="PackedScene" uid="uid://bjqgs6id4odbb" path="res://systems/sandworm/segment_body.tscn" id="10_eb6dy"]
+[ext_resource type="PackedScene" uid="uid://jsuipt3d88oi" path="res://systems/sandworm/segment_tail.tscn" id="11_trceg"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0wfyh"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -40,9 +40,8 @@ material = SubResource("StandardMaterial3D_tbgi4")
 
 [node name="Main" type="Node3D" unique_id=523338900]
 
-[node name="GameManager" type="Node3D" parent="." unique_id=72747073 node_paths=PackedStringArray("projectile_holder")]
+[node name="GameManager" type="Node3D" parent="." unique_id=72747073]
 script = ExtResource("1_ya4ey")
-projectile_holder = NodePath("Projectiles")
 
 [node name="Projectiles" type="Node3D" parent="GameManager" unique_id=373123140]
 unique_name_in_owner = true
@@ -103,10 +102,9 @@ metadata/_custom_type_script = "uid://ci7sy6pwrh50m"
 [node name="Sandworm" type="Node3D" parent="SandwormController" unique_id=1414786127]
 unique_name_in_owner = true
 script = ExtResource("1_0wfyh")
-speed = 30.0
-head_scene = ExtResource("5_o6xl0")
-body_scene = ExtResource("4_tefeu")
-tail_scene = ExtResource("3_tbgi4")
+head_scene = ExtResource("9_ya4ey")
+body_scene = ExtResource("10_eb6dy")
+tail_scene = ExtResource("11_trceg")
 metadata/_custom_type_script = "uid://ddbgdav17wcvw"
 
 [node name="SandwormTarget" type="Node3D" parent="SandwormController" unique_id=790334092]

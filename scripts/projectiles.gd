@@ -17,3 +17,9 @@ func update(delta: float) -> void:
 		if projectile.alive_time <= 0.0:
 			projectile.queue_free()
 			_projectiles.remove_at(i)
+		else:
+			projectile.simulate(delta)
+
+func remove(projectile: Projectile) -> void:
+	projectile.queue_free()
+	_projectiles.erase(projectile)

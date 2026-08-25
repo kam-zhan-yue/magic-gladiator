@@ -1,7 +1,7 @@
 class_name Sandworm
 extends Node3D
 
-@export var speed := 20.0
+@export var speed := 12.0
 @export var distance_constraint := 1.5
 @export var num_body_segments := 10
 @export var head_scene: PackedScene
@@ -11,7 +11,7 @@ extends Node3D
 const BASICALLY_ZERO = 0.001
 @export var initial_offset := Vector3(-distance_constraint, 0 ,0)
 
-var segments: Array[Node3D] = []
+var segments: Array[SandwormSegment] = []
 
 # ========= Public Methods ============
 func init() -> void:
@@ -22,36 +22,47 @@ func init() -> void:
 
 	_init_segments()
 
+
 func get_head() -> Node3D:
 	return segments[0]
+
 
 func chase(target_pos: Vector3, delta: float) -> void:
 	var direction = segments[0].global_position.direction_to(target_pos)
 	_move_towards_direction(direction, delta)
 
+
+func hit(_damage: float, _segment: int) -> void:
+	pass
+
+
+func segment_destroyed(_segment: int) -> void:
+	pass
+
 # ========= Private Methods ============
 func _get_total_segments() -> int:
 	return num_body_segments + 2
 
+
 func _add_segment(segment: Node3D) -> void:
 	add_child(segment)
-	segments.push_back(segment)
+	segments.push_back(segment as SandwormSegment)
 	segment.global_position = global_position + initial_offset * len(segments)
 
+
 func _init_segments() -> void:
+	for i in range(len(segments)):
+		segments[i].init(self, i)
+
 	_pull_segment_force(0, segments[0].global_position - initial_offset)
 	for i in range(1, _get_total_segments()):
 		_pull_segment_force(i, segments[i - 1].global_position)
-
-# func _process(delta: float) -> void:
-# 	var input_vector := Input.get_vector("move_left", "move_right", "move_up", "move_down")
-# 	var direction = Vector3(input_vector.x, -input_vector.y, 0)
-# 	_move_towards_direction(direction, delta)
 
 
 func _move_towards_direction(direction: Vector3, delta: float) -> void:
 	_move(direction, delta)
 	_look_at(direction, delta)
+
 
 func _look_at(direction: Vector3, delta: float) -> void:
 	if direction.length() <= 0:
@@ -83,6 +94,7 @@ func _pull_segment(index: int, target_pos: Vector3, delta: float) -> void:
 func _move(direction: Vector3, delta: float) -> void:
 	segments[0].global_position += speed * direction * delta
 	_pull()
+
 
 func _pull() -> void:
 	for i in range(1, _get_total_segments()):

@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://jsuipt3d88oi"]
+
+[ext_resource type="Script" uid="uid://cdur2gsk8extq" path="res://scripts/sandworm_segment.gd" id="1_td55x"]
+[ext_resource type="PackedScene" uid="uid://wdjjmtu7lkmx" path="res://models/worm-tail.blend" id="2_gtror"]
+[ext_resource type="Script" uid="uid://c782oaaum8vjk" path="res://scripts/hit_box.gd" id="3_td55x"]
+
+[node name="SegmentBody" type="Node3D" unique_id=367404564]
+script = ExtResource("1_td55x")
+
+[node name="worm-tail" parent="." unique_id=1551505240 instance=ExtResource("2_gtror")]
+
+[node name="StaticBody3D" parent="worm-tail/worm" parent_id_path=PackedInt32Array(1551505240, 2128182241) index="0" unique_id=114061967]
+script = ExtResource("3_td55x")
+
+[editable path="worm-tail"]
