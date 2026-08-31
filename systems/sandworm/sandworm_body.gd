@@ -1,7 +1,5 @@
-class_name Sandworm
+class_name SandwormBody
 extends Node3D
-
-const BASICALLY_ZERO = 0.001
 
 @export var speed := 12.0
 @export var distance_constraint := 1.5
@@ -9,13 +7,13 @@ const BASICALLY_ZERO = 0.001
 @export var segment_scene: PackedScene
 @export var initial_offset := Vector3(-distance_constraint, 0 ,0)
 
-var _controller: SandwormController
+var _sandworm: Sandworm
 
 var _segments: Array[SandwormSegment] = []
 
 # ========= Public Methods ============
-func init_controller(controller: SandwormController) -> void:
-	_controller = controller
+func init_sandworm(sandworm: Sandworm) -> void:
+	_sandworm = sandworm
 
 func init_own_segments() -> void:
 	var segments = _spawn_segments()
@@ -61,7 +59,7 @@ func segment_destroyed(index: int) -> void:
 	init_with_segments(head_segments)
 
 	# Split the tail!
-	_controller.split(tail_segments)
+	_sandworm.split(tail_segments)
 
 # ========= Private Methods ============
 func _get_total_segments() -> int:
@@ -103,7 +101,7 @@ func _look_at(direction: Vector3, delta: float) -> void:
 
 func _pull_segment_force(index: int, target_pos: Vector3) -> void:
 	var current_transform = _segments[index].global_transform
-	if current_transform.origin.distance_to(target_pos) <= BASICALLY_ZERO:
+	if current_transform.origin.distance_to(target_pos) <= Global.BASICALLY_ZERO:
 		return
 	var target_transform = current_transform.looking_at(target_pos)
 	_segments[index].global_transform.basis = target_transform.basis
@@ -111,7 +109,7 @@ func _pull_segment_force(index: int, target_pos: Vector3) -> void:
 
 func _pull_segment(index: int, target_pos: Vector3, delta: float) -> void:
 	var current_transform = _segments[index].global_transform
-	if current_transform.origin.distance_to(target_pos) <= BASICALLY_ZERO:
+	if current_transform.origin.distance_to(target_pos) <= Global.BASICALLY_ZERO:
 		return
 	var target_transform = current_transform.looking_at(target_pos)
 	var weight = 1.0 - exp(-10.0 * delta)

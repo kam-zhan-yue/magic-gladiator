@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c0khuc0bo3h61"]
 
-[ext_resource type="Script" uid="uid://ci7sy6pwrh50m" path="res://scripts/sandworm_controller.gd" id="1_2xjpv"]
+[ext_resource type="Script" uid="uid://ci7sy6pwrh50m" path="res://systems/sandworm/sandworm_controller.gd" id="1_2xjpv"]
 [ext_resource type="PackedScene" uid="uid://cycynlkqqbpr4" path="res://systems/sandworm/sandworm.tscn" id="2_vaqxf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbgi4"]

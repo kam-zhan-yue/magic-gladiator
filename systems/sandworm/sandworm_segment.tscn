@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bjqgs6id4odbb"]
 
-[ext_resource type="Script" uid="uid://cdur2gsk8extq" path="res://scripts/sandworm_segment.gd" id="1_t2hxi"]
+[ext_resource type="Script" uid="uid://cdur2gsk8extq" path="res://systems/sandworm/sandworm_segment.gd" id="1_t2hxi"]
 [ext_resource type="PackedScene" uid="uid://vmw0gd2mxqe6" path="res://models/worm-head.blend" id="2_26o3n"]
 [ext_resource type="PackedScene" uid="uid://xcwojmkjey6g" path="res://models/worm-body.blend" id="2_t2hxi"]
 [ext_resource type="Script" uid="uid://c782oaaum8vjk" path="res://scripts/hit_box.gd" id="3_pfvh6"]

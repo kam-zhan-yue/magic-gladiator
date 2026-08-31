@@ -11,11 +11,11 @@ enum Type { Head, Body, Tail }
 
 var _type: Type
 var _health: float
-var _sandworm: Sandworm
+var _body: SandwormBody
 var _segment_index: int
 
-func init(sandworm: Sandworm, index: int, type: Type) -> void:
-	_sandworm = sandworm
+func init(body: SandwormBody, index: int, type: Type) -> void:
+	_body = body
 	_segment_index = index
 	_init_model(type)
 	hit_box.on_hit.connect(_hit)
@@ -46,9 +46,9 @@ func _instantiate_model(type: Type) -> Node3D:
 func _hit(damage: float) -> void:
 	_health -= damage
 	if _health <= 0:
-		_sandworm.segment_destroyed(_segment_index)
+		_body.segment_destroyed(_segment_index)
 	else:
-		_sandworm.hit(damage, _segment_index)
+		_body.hit(damage, _segment_index)
 
 func uninit() -> void:
 	hit_box.on_hit.disconnect(_hit)
