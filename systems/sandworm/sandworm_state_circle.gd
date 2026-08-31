@@ -1,8 +1,6 @@
 class_name SandwormStateCircle
 extends SandwormState
 
-@onready var debug_ball := %CircleDebugBall as Node3D
-
 var _data: SandwormStateCircleData
 var _setting: SandwormStateCircleSetting
 var _time := 0.0
@@ -21,4 +19,3 @@ func state_update(delta: float) -> void:
 	target_pos.x = _data.origin.x + cos(_time * _setting.xz_frequency) * _setting.xz_radius
 	target_pos.y = _data.origin.y + sin(_time * _setting.y_frequency) * _setting.y_radius
 	target_pos.z = _data.origin.z + sin(_time * _setting.xz_frequency) * _setting.xz_radius
-	debug_ball.global_position = target_pos

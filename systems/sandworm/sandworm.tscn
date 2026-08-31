@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://c0noo2oq8q1kp" path="res://systems/sandworm/sandworm_body.gd" id="2_fugkj"]
 [ext_resource type="Script" uid="uid://ch6wd5kv0bd4a" path="res://systems/sandworm/sandworm_brain.gd" id="4_fugkj"]
 [ext_resource type="Script" uid="uid://yn6c5gpux3ef" path="res://systems/sandworm/sandworm_state_circle.gd" id="5_8xtky"]
+[ext_resource type="Script" uid="uid://bsu3fugxs1enm" path="res://systems/sandworm/sandworm_state_chase.gd" id="6_y60wo"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbgi4"]
 albedo_color = Color(4.165, 0, 0, 1)
@@ -15,6 +16,13 @@ material = SubResource("StandardMaterial3D_tbgi4")
 [node name="Sandworm" type="Node3D" unique_id=107374301]
 script = ExtResource("1_bitlm")
 metadata/_custom_type_script = "uid://ddbgdav17wcvw"
+
+[node name="CircleDebugBall" type="Node3D" parent="." unique_id=572302488]
+unique_name_in_owner = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CircleDebugBall" unique_id=1516289498]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+mesh = SubResource("SphereMesh_8xtky")
 
 [node name="Body" type="Node3D" parent="." unique_id=59206716]
 unique_name_in_owner = true
@@ -32,9 +40,7 @@ unique_name_in_owner = true
 script = ExtResource("5_8xtky")
 metadata/_custom_type_script = "uid://yn6c5gpux3ef"
 
-[node name="CircleDebugBall" type="Node3D" parent="Brain/Circle" unique_id=572302488]
+[node name="Chase" type="Node3D" parent="Brain" unique_id=335938136]
 unique_name_in_owner = true
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Brain/Circle/CircleDebugBall" unique_id=1516289498]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
-mesh = SubResource("SphereMesh_8xtky")
+script = ExtResource("6_y60wo")
+metadata/_custom_type_script = "uid://bsu3fugxs1enm"

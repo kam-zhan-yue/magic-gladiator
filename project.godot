@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Global="*uid://bqfipl4b7n4s5"
 Projectiles="*uid://cy7r6pcuuu660"
 Game="*uid://1m6x5w32m2sd"
+Services="*uid://dh4q8kg7d43i5"
 
 [display]
 

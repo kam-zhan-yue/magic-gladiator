@@ -10,5 +10,11 @@ func _ready() -> void:
 	sandworm.init()
 	Projectiles.init(projectile_holder)
 
+	_inject()
+
+func _inject() -> void:
+	Services.player = player
+
+
 func _process(delta: float) -> void:
 	Projectiles.update(delta)
