@@ -3,7 +3,16 @@
 [ext_resource type="Script" uid="uid://cldixequ2urc3" path="res://scripts/game_manager.gd" id="1_ya4ey"]
 [ext_resource type="Script" uid="uid://c782oaaum8vjk" path="res://scripts/hit_box.gd" id="2_choun"]
 [ext_resource type="PackedScene" uid="uid://dwt8km2ldudsw" path="res://systems/player/player.tscn" id="3_jyhfs"]
+[ext_resource type="Script" uid="uid://cnnixp0mu1utb" path="res://systems/sandworm/sandworm_state_circle_setting.gd" id="3_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://c0khuc0bo3h61" path="res://systems/sandworm/sandworm_controller.tscn" id="4_tbgi4"]
+
+[sub_resource type="Resource" id="Resource_tefeu"]
+script = ExtResource("3_tbgi4")
+xz_radius = 15.0
+xz_frequency = 2.0
+y_radius = 2.0
+y_frequency = 1.0
+metadata/_custom_type_script = "uid://cnnixp0mu1utb"
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0wfyh"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -27,6 +36,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7756352, 0)
 [node name="SandwormController" parent="." unique_id=1952678828 instance=ExtResource("4_tbgi4")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.51886, 0)
+circle_setting = SubResource("Resource_tefeu")
 
 [node name="Level" type="Node3D" parent="." unique_id=1937750007]
 script = ExtResource("2_choun")

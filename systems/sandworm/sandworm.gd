@@ -4,6 +4,7 @@ extends Node3D
 const BASICALLY_ZERO = 0.001
 
 @onready var body := %Body as SandwormBody
+@onready var brain := %Brain as SandwormBrain
 
 var _controller: SandwormController
 
@@ -21,8 +22,12 @@ func init_with_segments(segments: Array[SandwormSegment]) -> void:
 func get_head() -> Node3D:
 	return body.get_head()
 
-func chase(target_pos: Vector3, delta: float) -> void:
-	body.chase(target_pos, delta)
-
 func split(segments: Array[SandwormSegment]) -> void:
 	_controller.split(segments)
+
+func update(delta: float) -> void:
+	brain.update(delta)
+	var target_pos = brain.get_body_pos()
+	if target_pos == Vector3.ZERO:
+		return
+	body.chase(target_pos, delta)
