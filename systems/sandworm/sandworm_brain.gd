@@ -1,8 +1,8 @@
 class_name SandwormBrain
 extends Node3D
 
-@export var chase_time := 5.0
-@export var circle_time := 5.0
+@export var chase_time := 1.0
+@export var circle_time := 10.0
 @onready var state_circling := %Circle as SandwormStateCircle
 @onready var state_chase := %Chase as SandwormStateChase
 @onready var state_move_to := %MoveTo as SandwormStateMoveTo
@@ -56,6 +56,8 @@ func enter_state(state: State) -> void:
 		_current_state = state_circling
 	elif state == State.Chasing:
 		_current_state = state_chase
+	elif state == State.MoveTo:
+		_current_state = state_move_to
 	
 	_current_state.state_enter()
 

@@ -14,6 +14,7 @@ func _ready() -> void:
 
 func _inject() -> void:
 	Services.player = player
+	Services.sandworm = sandworm
 
 
 func _process(delta: float) -> void:

@@ -1,6 +1,7 @@
 class_name SandwormController
 extends Node3D
 
+@export var checkpoints: Array[Node3D]
 @export var sandworm_scene: PackedScene 
 
 var _sandworms: Array[Sandworm] = []

@@ -20,11 +20,8 @@ func init_own_segments() -> void:
 func init_with_segments(segments: Array[SandwormSegment]) -> void:
 	body.init_with_segments(segments)
 
-func get_head() -> Node3D:
-	return body.get_head()
-
 func get_head_pos() -> Vector3:
-	return body.get_head().global_position
+	return body.get_head_pos()
 
 func split(segments: Array[SandwormSegment]) -> void:
 	_controller.split(segments)
@@ -34,4 +31,4 @@ func update(delta: float) -> void:
 	var target_pos = brain.get_body_pos()
 	if target_pos == Vector3.ZERO:
 		return
-	body.chase(target_pos, delta)
+	body.update(target_pos, delta)
