@@ -11,6 +11,7 @@ var _controller: SandwormController
 # ========= Public Methods ============
 func init_controller(controller: SandwormController) -> void:
 	_controller = controller
+	brain.init_sandworm(self)
 	body.init_sandworm(self)
 
 func init_own_segments() -> void:
@@ -21,6 +22,9 @@ func init_with_segments(segments: Array[SandwormSegment]) -> void:
 
 func get_head() -> Node3D:
 	return body.get_head()
+
+func get_head_pos() -> Vector3:
+	return body.get_head().global_position
 
 func split(segments: Array[SandwormSegment]) -> void:
 	_controller.split(segments)

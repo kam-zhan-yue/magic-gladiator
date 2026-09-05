@@ -1,16 +1,11 @@
 class_name SandwormStateChase
 extends SandwormState
 
-var _data: SandwormStateChaseData
-var _setting: SandwormStateChaseSetting
+@export var setting: SandwormStateChaseSetting
 var _velocity: Vector3
 
-func set_data(data: SandwormStateChaseData) -> void:
-	_data = data
-	_setting = data.setting
-
 func state_enter() -> void:
-	target_pos = _data.start_pos
+	target_pos = _sandworm.get_head_pos()
 	_velocity = Vector3.ZERO
 
 func state_update(delta: float) -> void:
@@ -18,10 +13,12 @@ func state_update(delta: float) -> void:
 	if player == null:
 		return
 
-	var target_direction := target_pos.direction_to(player.global_position).normalized()
-	var target_velocity := target_direction * _setting.max_chase_speed
-	var steering := target_velocity - _velocity
-	steering = steering.limit_length(_setting.max_steer_force)
-
-	_velocity += steering
-	target_pos += _velocity * delta
+	target_pos = player.global_position
+	#
+	# var target_direction := target_pos.direction_to(player.global_position).normalized()
+	# var target_velocity := target_direction * setting.max_chase_speed
+	# var steering := target_velocity - _velocity
+	# steering = steering.limit_length(setting.max_steer_force)
+	#
+	# _velocity += steering
+	# target_pos += _velocity * delta

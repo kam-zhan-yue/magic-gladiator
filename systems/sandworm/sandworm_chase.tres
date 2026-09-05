@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SandwormStateChaseSetting" format=3 uid="uid://bawfyheb17oim"]
+
+[ext_resource type="Script" uid="uid://loj657xrrj36" path="res://systems/sandworm/sandworm_state_chase_setting.gd" id="1_86wqu"]
+
+[resource]
+script = ExtResource("1_86wqu")
+max_chase_speed = 5.0
+max_steer_force = 2.0
+metadata/_custom_type_script = "uid://loj657xrrj36"

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SandwormStateCircleSetting" format=3 uid="uid://cwtl5s51xk5u5"]
+
+[ext_resource type="Script" uid="uid://cnnixp0mu1utb" path="res://systems/sandworm/sandworm_state_circle_setting.gd" id="1_0bsve"]
+
+[resource]
+script = ExtResource("1_0bsve")
+xz_radius = 15.0
+xz_frequency = 2.0
+y_radius = 2.0
+y_frequency = 1.0
+metadata/_custom_type_script = "uid://cnnixp0mu1utb"

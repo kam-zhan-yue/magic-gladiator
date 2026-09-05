@@ -5,7 +5,10 @@
 [ext_resource type="Script" uid="uid://c0noo2oq8q1kp" path="res://systems/sandworm/sandworm_body.gd" id="2_fugkj"]
 [ext_resource type="Script" uid="uid://ch6wd5kv0bd4a" path="res://systems/sandworm/sandworm_brain.gd" id="4_fugkj"]
 [ext_resource type="Script" uid="uid://yn6c5gpux3ef" path="res://systems/sandworm/sandworm_state_circle.gd" id="5_8xtky"]
+[ext_resource type="Resource" uid="uid://cwtl5s51xk5u5" path="res://systems/sandworm/sandworm_circle.tres" id="6_qcpvx"]
 [ext_resource type="Script" uid="uid://bsu3fugxs1enm" path="res://systems/sandworm/sandworm_state_chase.gd" id="6_y60wo"]
+[ext_resource type="Script" uid="uid://dggmy21babmet" path="res://systems/sandworm/sandworm_state_move_to.gd" id="7_yt18e"]
+[ext_resource type="Resource" uid="uid://bawfyheb17oim" path="res://systems/sandworm/sandworm_chase.tres" id="8_v61cb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbgi4"]
 albedo_color = Color(4.165, 0, 0, 1)
@@ -38,9 +41,16 @@ metadata/_custom_type_script = "uid://ch6wd5kv0bd4a"
 [node name="Circle" type="Node3D" parent="Brain" unique_id=450565633]
 unique_name_in_owner = true
 script = ExtResource("5_8xtky")
+setting = ExtResource("6_qcpvx")
 metadata/_custom_type_script = "uid://yn6c5gpux3ef"
 
 [node name="Chase" type="Node3D" parent="Brain" unique_id=335938136]
 unique_name_in_owner = true
 script = ExtResource("6_y60wo")
+setting = ExtResource("8_v61cb")
 metadata/_custom_type_script = "uid://bsu3fugxs1enm"
+
+[node name="MoveTo" type="Node3D" parent="Brain" unique_id=1172154191]
+unique_name_in_owner = true
+script = ExtResource("7_yt18e")
+metadata/_custom_type_script = "uid://dggmy21babmet"
