@@ -1,8 +1,8 @@
 class_name SandwormBrain
 extends Node3D
 
-@export var chase_time := 1.0
-@export var circle_time := 10.0
+@export var chase_time := 10.0
+@export var circle_time := 1.0
 @onready var state_circling := %Circle as SandwormStateCircle
 @onready var state_chase := %Chase as SandwormStateChase
 @onready var state_move_to := %MoveTo as SandwormStateMoveTo

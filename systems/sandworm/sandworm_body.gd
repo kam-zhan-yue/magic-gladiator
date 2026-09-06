@@ -4,7 +4,7 @@ extends Node3D
 @export var speed := 12.0
 @export var steer_speed := 5.0
 @export var distance_constraint := 1.5
-@export var num_segments := 10
+@export var num_segments := 1
 @export var segment_scene: PackedScene
 @export var initial_offset := Vector3(-distance_constraint, 0 ,0)
 @export var y_frequency := 5.0
@@ -14,6 +14,7 @@ var _sandworm: Sandworm
 var _head: Vector3
 var _velocity: Vector3
 var _time := 0.0
+var _alive := true
 
 var _segments: Array[SandwormSegment] = []
 
@@ -60,10 +61,14 @@ func segment_destroyed(index: int) -> void:
 	var tail_segments := _segments.slice(index + 1, len(_segments))
 
 	# Split the head!
-	init_with_segments(head_segments)
+	if len(head_segments) > 0:
+		init_with_segments(head_segments)
+	else:
+		_die()
 
 	# Split the tail!
-	_sandworm.split(tail_segments)
+	if len(tail_segments) > 0:
+		_sandworm.split(tail_segments)
 
 func get_head_pos() -> Vector3:
 	return _head
@@ -72,6 +77,9 @@ func get_head_pos() -> Vector3:
 func _get_total_segments() -> int:
 	return len(_segments)
 
+func _die() -> void:
+	_segments = []
+	_alive = false
 
 func _spawn_segments() -> Array[SandwormSegment]:
 	var segments: Array[SandwormSegment] = []
