@@ -5,7 +5,6 @@ extends Node3D
 @export var num_segments := 10
 @export var distance_constraint := 1.0
 @export var angle_constraint := 10.0
-@export var segment_scene: PackedScene
 @export var wave_amplitude := 2.5
 @export var wave_frequency := 2.0
 @export var wave_speed := 3.0
@@ -13,85 +12,63 @@ extends Node3D
 @onready var segment_holder := %Segments as Node3D
 
 var _time := 0.0
-var _segments: Array[KrakenTentacleSegment] = []
+var _tentacle_segments: Array[KrakenTentacleSegment] = []
+var _fabrik_segments: Array[FabrikSegment] = []
 
 func init() -> void:
+	var tentacle_segments: Array[KrakenTentacleSegment] = []
+	var fabrik_segments: Array[FabrikSegment] = []
+
 	for child in segment_holder.get_children():
 		if child is KrakenTentacleSegment:
 			var segment = child as KrakenTentacleSegment
-			_segments.append(segment)
+			tentacle_segments.append(segment)
+			var fabrik := FabrikSegment.new()
+			fabrik.position = segment.global_position
+			fabrik.distance_constraint = distance_constraint
+			fabrik_segments.append(fabrik)
 
-	if len(_segments) == 0:
-		_init_segments()
-
+	_tentacle_segments = tentacle_segments
+	_fabrik_segments = fabrik_segments
 	_time = 0.0
 
-func _init_segments() -> void:
-	for i in range(num_segments):
-		var segment := segment_scene.instantiate()
-		add_child(segment)
-		segment.global_position = global_position
-		_segments.append(segment)
 
 func update(target_pos: Vector3, delta: float) -> void:
 	_time += delta
 	if target_pos == Vector3.ZERO:
 		return
-	if len(_segments) == 0:
+	if len(_fabrik_segments) == 0:
 		init()
-	_fabrik(target_pos)
+	var solver := FabrikSolver.new()
+	solver.solve(target_pos, global_position, _fabrik_segments)
 	_apply_wave(delta)
+	_update_tentacle()
 
-func _fabrik(target_pos: Vector3) -> void:
-	_process_forwards(target_pos)
-	_process_backwards()
-
-func _process_forwards(target_pos: Vector3) -> void:
-	_segments[-1].global_position = target_pos
-	for i in range(len(_segments) - 2, -1, -1):
-		var curr_node := _segments[i+1]
-		var next_node := _segments[i]
-		_calculate_constraint(curr_node, next_node)
-
-
-func _process_backwards() -> void:
-	_segments[0].global_position = global_position
-	for i in range(1, len(_segments)):
-		var curr_node := _segments[i-1]
-		var next_node := _segments[i]
-		_calculate_constraint(curr_node, next_node)
-
-func _calculate_constraint(curr: KrakenTentacleSegment, next: KrakenTentacleSegment) -> void:
-	var next_position := next.global_position
-	var curr_position := curr.global_position
-	var difference := next_position - curr_position
-
-	if difference.length() >= distance_constraint:
-		var new_position := curr_position + difference.normalized() * distance_constraint
-		next.global_position = new_position
-	else:
-		next.global_position = curr_position + difference
 
 func _apply_wave(delta: float) -> void:
 	_time += delta
 
 	var total_length := 0.0
 	var segment_lengths: Array[float] = []
-	for i in range(len(_segments) - 1):
-		var curr := _segments[i].global_position
-		var next := _segments[i+1].global_position
+	for i in range(len(_fabrik_segments) - 1):
+		var curr := _fabrik_segments[i].position
+		var next := _fabrik_segments[i+1].position
 		var length = curr.distance_to(next)
 		segment_lengths.append(length)
 		total_length += length
 
 	var accumulated_length := 0.0
-	for i in range(1, len(_segments)):
+	for i in range(1, len(_fabrik_segments)):
 		accumulated_length += segment_lengths[i-1]
 		var t := accumulated_length / total_length
 
-		var vec := _segments[i].global_position - _segments[i-1].global_position
+		var vec := _fabrik_segments[i].position - _fabrik_segments[i-1].position
 		var direction := vec.normalized()
 		var perpendicular := direction.cross(Vector3.UP)
 		var wave_phase := _time * wave_speed + t * wave_frequency * TAU
 		var wave_offset := sin(wave_phase) * wave_amplitude
-		_segments[i].global_position += perpendicular * wave_offset
+		_fabrik_segments[i].position += perpendicular * wave_offset
+
+func _update_tentacle() -> void:
+	for i in range(len(_fabrik_segments)):
+		_tentacle_segments[i].global_position = _fabrik_segments[i].position
