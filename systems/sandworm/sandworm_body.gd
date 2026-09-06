@@ -4,11 +4,11 @@ extends Node3D
 @export var speed := 12.0
 @export var steer_speed := 5.0
 @export var distance_constraint := 1.5
-@export var num_segments := 1
+@export var num_segments := 10
 @export var segment_scene: PackedScene
 @export var initial_offset := Vector3(-distance_constraint, 0 ,0)
 @export var y_frequency := 5.0
-@export var y_amplitude := 3.0
+@export var y_amplitude := 2.0
 
 var _sandworm: Sandworm
 var _head: Vector3

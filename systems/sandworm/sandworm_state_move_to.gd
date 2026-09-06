@@ -13,6 +13,6 @@ func state_enter() -> void:
 func state_update(delta: float) -> void:
 	_time += delta
 
-func is_finished() -> bool:
+func state_is_finished() -> bool:
 	var sandworm_pos = _sandworm.get_head_pos()
 	return sandworm_pos.distance_to(target_pos) <= THRESHOLD

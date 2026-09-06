@@ -1,24 +1,26 @@
 class_name SandwormBrain
 extends Node3D
 
-@export var chase_time := 10.0
-@export var circle_time := 1.0
-@onready var state_circling := %Circle as SandwormStateCircle
-@onready var state_chase := %Chase as SandwormStateChase
-@onready var state_move_to := %MoveTo as SandwormStateMoveTo
 @onready var debug_ball := %CircleDebugBall as Node3D
+
+@export var state_order: Array[State]
 
 enum State { None, Circling, Chasing, MoveTo }
 
 var _state := State.None
+var _states: Dictionary[State, SandwormState]
 var _current_state: SandwormState
 var _timer := 0.0
 
+var _state_index := 0
+
 
 func init_sandworm(sandworm: Sandworm) -> void:
-	state_circling.state_init(sandworm)
-	state_chase.state_init(sandworm)
-	state_move_to.state_init(sandworm)
+	for child in get_children():
+		if child is SandwormState:
+			var sandworm_state := child as SandwormState
+			_states[sandworm_state.state] = sandworm_state
+			sandworm_state.state_init(sandworm)
 
 
 func update(delta: float) -> void:
@@ -29,14 +31,17 @@ func update(delta: float) -> void:
 func _check_state(delta: float) -> void:
 	_timer += delta
 	if _state == State.None:
-		enter_state(State.Circling)
-	elif _state == State.Circling and _timer >= circle_time:
-		enter_state(State.MoveTo)
-	elif _state == State.MoveTo and state_move_to.is_finished():
-		enter_state(State.Chasing)
-	elif _state == State.Chasing and _timer >= chase_time:
-		enter_state(State.Circling)
+		_state_index = 0
+		enter_state(state_order[_state_index])
+	elif _current_state.state_is_finished():
+		_progress_state()
 
+
+func _progress_state() -> void:
+	_state_index += 1
+	if _state_index >= len(state_order):
+		_state_index = 0
+	enter_state(state_order[_state_index])
 
 func _update_state(delta: float) -> void:
 	if _current_state != null:
@@ -52,13 +57,11 @@ func enter_state(state: State) -> void:
 		_current_state = null
 		return
 
-	if state == State.Circling:
-		_current_state = state_circling
-	elif state == State.Chasing:
-		_current_state = state_chase
-	elif state == State.MoveTo:
-		_current_state = state_move_to
-	
+	if state not in _states:
+		print("Couldn't find %s in states", State.keys()[state])
+		return
+
+	_current_state = _states[state]
 	_current_state.state_enter()
 
 

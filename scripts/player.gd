@@ -4,7 +4,7 @@ extends CharacterBody3D
 @onready var camera := %PlayerCamera as PlayerCamera
 
 @export_category("Movement Settings")
-@export var speed := 10.0
+@export var speed := 15.0
 @export var acceleration := 100.0
 @export var deceleration := 100.0
 
