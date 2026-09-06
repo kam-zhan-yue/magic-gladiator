@@ -40,6 +40,7 @@ func update(target_pos: Vector3, delta: float) -> void:
 	if len(_segments) == 0:
 		init()
 	_fabrik(target_pos)
+	_apply_wave(delta)
 
 func _fabrik(target_pos: Vector3) -> void:
 	_process_forwards(target_pos)
@@ -75,12 +76,22 @@ func _apply_wave(delta: float) -> void:
 	_time += delta
 
 	var total_length := 0.0
+	var segment_lengths: Array[float] = []
 	for i in range(len(_segments) - 1):
 		var curr := _segments[i].global_position
 		var next := _segments[i+1].global_position
-		total_length += curr.distance_to(next)
+		var length = curr.distance_to(next)
+		segment_lengths.append(length)
+		total_length += length
 
 	var accumulated_length := 0.0
-	# for i in rangg
+	for i in range(1, len(_segments)):
+		accumulated_length += segment_lengths[i-1]
+		var t := accumulated_length / total_length
 
-	pass
+		var vec := _segments[i].global_position - _segments[i-1].global_position
+		var direction := vec.normalized()
+		var perpendicular := direction.cross(Vector3.UP)
+		var wave_phase := _time * wave_speed + t * wave_frequency * TAU
+		var wave_offset := sin(wave_phase) * wave_amplitude
+		_segments[i].global_position += perpendicular * wave_offset
