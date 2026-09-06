@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bebgmwlcbbwmg"]
+
+[ext_resource type="Script" uid="uid://c0226he6la70x" path="res://systems/kraken/kraken_tentacle_segment.gd" id="1_ukspx"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_6jo5d"]
+
+[node name="KrakenTentacleSegment" type="Node3D" unique_id=1604159818]
+script = ExtResource("1_ukspx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2088493233]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
+mesh = SubResource("SphereMesh_6jo5d")

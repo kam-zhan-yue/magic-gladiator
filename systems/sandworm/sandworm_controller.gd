@@ -17,7 +17,7 @@ func _instantiate_sandworm() -> Sandworm:
 	_sandworms.push_back(sandworm)
 	return sandworm
 
-func _process(delta: float) -> void:
+func update(delta: float) -> void:
 	for sandworm in _sandworms:
 		sandworm.update(delta)
 

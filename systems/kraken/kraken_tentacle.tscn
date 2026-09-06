@@ -1,0 +1,119 @@
+[gd_scene format=3 uid="uid://cnt8hb2cenevc"]
+
+[ext_resource type="Script" uid="uid://dlh5ef2jvluhi" path="res://systems/kraken/kraken_tentacle.gd" id="1_6jo5d"]
+[ext_resource type="Script" uid="uid://dis0ich8ghos2" path="res://systems/kraken/kraken_tentacle_body.gd" id="2_411bx"]
+[ext_resource type="PackedScene" uid="uid://bebgmwlcbbwmg" path="res://systems/kraken/kraken_tentacle_segment.tscn" id="3_e4lkp"]
+[ext_resource type="Script" uid="uid://u1u5s7xscsar" path="res://systems/kraken/kraken_tentacle_brain.gd" id="4_jiucf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lbcdk"]
+albedo_color = Color(0.4392157, 0.43529412, 0.8666667, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_xm80a"]
+material = SubResource("StandardMaterial3D_lbcdk")
+
+[sub_resource type="Animation" id="Animation_411bx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(4.7683716e-07, 4.3704796, 2.8076)]
+}
+
+[sub_resource type="Animation" id="Animation_e4lkp"]
+resource_name = "kraken_move"
+length = 8.5
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array()
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.8488839, 5.973466, 8.533334),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(4.7683716e-07, 4.3704796, 2.8076), Vector3(1.31136, 3.7745097, 2.8076), Vector3(1.1831096, 5.1887774, 2.8076), Vector3(-2.2097383, 4.7590823, 2.8076)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jiucf"]
+_data = {
+&"RESET": SubResource("Animation_411bx"),
+&"kraken_move": SubResource("Animation_e4lkp")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c6scb"]
+albedo_color = Color(0.9529412, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_g3pgo"]
+material = SubResource("StandardMaterial3D_c6scb")
+
+[node name="KrakenTentacle" type="Node3D" unique_id=1975243011]
+script = ExtResource("1_6jo5d")
+metadata/_custom_type_script = "uid://dlh5ef2jvluhi"
+
+[node name="KrakenTentacleBody" type="Node3D" parent="." unique_id=1523967996]
+unique_name_in_owner = true
+script = ExtResource("2_411bx")
+segment_scene = ExtResource("3_e4lkp")
+wave_amplitude = null
+wave_frequency = null
+wave_speed = null
+metadata/_custom_type_script = "uid://dis0ich8ghos2"
+
+[node name="KrakenTentacleBrain" type="Node3D" parent="." unique_id=1700835257 node_paths=PackedStringArray("animated_position", "debug_position")]
+unique_name_in_owner = true
+script = ExtResource("4_jiucf")
+animated_position = NodePath("Animated")
+debug_position = NodePath("Debug")
+metadata/_custom_type_script = "uid://u1u5s7xscsar"
+
+[node name="Animated" type="Node3D" parent="KrakenTentacleBrain" unique_id=578038751]
+transform = Transform3D(0.375, 0, 0, 0, 0.375, 0, 0, 0, 0.375, 4.7683716e-07, 4.3704796, 2.8076)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="KrakenTentacleBrain/Animated" unique_id=2088493233]
+mesh = SubResource("SphereMesh_xm80a")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="KrakenTentacleBrain/Animated" unique_id=192216640]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_jiucf")
+
+[node name="Debug" type="Node3D" parent="KrakenTentacleBrain" unique_id=2121655908]
+transform = Transform3D(0.705, 0, 0, 0, 0.705, 0, 0, 0, 0.705, 2.6054468, 3.0335472, 3.2176278)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="KrakenTentacleBrain/Debug" unique_id=297092210]
+mesh = SubResource("SphereMesh_g3pgo")
+
+[node name="Segments" type="Node3D" parent="KrakenTentacleBrain" unique_id=1193609073]
+unique_name_in_owner = true
+
+[node name="KrakenTentacleSegment2" parent="KrakenTentacleBrain/Segments" unique_id=1604159818 instance=ExtResource("3_e4lkp")]
+
+[node name="KrakenTentacleSegment" parent="KrakenTentacleBrain/Segments" unique_id=517982366 instance=ExtResource("3_e4lkp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.50762355, 0.59103155, 0.6268972)
+
+[node name="KrakenTentacleSegment3" parent="KrakenTentacleBrain/Segments" unique_id=1849912602 instance=ExtResource("3_e4lkp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0152473, 1.1820631, 1.2537942)
+
+[node name="KrakenTentacleSegment4" parent="KrakenTentacleBrain/Segments" unique_id=1929224016 instance=ExtResource("3_e4lkp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5228715, 1.7730947, 1.8806908)
+
+[node name="KrakenTentacleSegment5" parent="KrakenTentacleBrain/Segments" unique_id=257679256 instance=ExtResource("3_e4lkp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0304961, 2.3641264, 2.507587)
+
+[node name="KrakenTentacleSegment6" parent="KrakenTentacleBrain/Segments" unique_id=1314864507 instance=ExtResource("3_e4lkp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5381207, 2.9551587, 3.1344826)

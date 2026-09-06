@@ -1,9 +1,10 @@
-[gd_scene format=3 uid="uid://cbakrkkm084f5"]
+[gd_scene format=3 uid="uid://ddrrgw5r77gbc"]
 
-[ext_resource type="Script" uid="uid://cldixequ2urc3" path="res://scripts/game_manager.gd" id="1_ya4ey"]
-[ext_resource type="Script" uid="uid://c782oaaum8vjk" path="res://scripts/hit_box.gd" id="2_choun"]
-[ext_resource type="PackedScene" uid="uid://dwt8km2ldudsw" path="res://systems/player/player.tscn" id="3_jyhfs"]
-[ext_resource type="PackedScene" uid="uid://c0khuc0bo3h61" path="res://systems/sandworm/sandworm_controller.tscn" id="4_tbgi4"]
+[ext_resource type="Script" uid="uid://dju8b5rp5d0pq" path="res://systems/levels/kraken_level.gd" id="1_tjkq6"]
+[ext_resource type="PackedScene" uid="uid://dwt8km2ldudsw" path="res://systems/player/player.tscn" id="2_saexs"]
+[ext_resource type="Script" uid="uid://3t5mvj0dsc2v" path="res://systems/kraken/kraken.gd" id="3_saexs"]
+[ext_resource type="PackedScene" uid="uid://cnt8hb2cenevc" path="res://systems/kraken/kraken_tentacle.tscn" id="4_7uedm"]
+[ext_resource type="Script" uid="uid://c782oaaum8vjk" path="res://scripts/hit_box.gd" id="4_55hpm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0wfyh"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -32,17 +33,12 @@ material = SubResource("StandardMaterial3D_tbgi4")
 
 [node name="Main" type="Node3D" unique_id=523338900]
 
-[node name="Player" parent="." unique_id=674897594 instance=ExtResource("3_jyhfs")]
+[node name="Player" parent="." unique_id=674897594 instance=ExtResource("2_saexs")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7756352, 0)
 
-[node name="SandwormController" parent="." unique_id=1952678828 node_paths=PackedStringArray("checkpoints") instance=ExtResource("4_tbgi4")]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -15)
-checkpoints = [NodePath("../Level/Marker3D"), NodePath("../Level/Marker3D2"), NodePath("../Level/Marker3D3"), NodePath("../Level/Marker3D4")]
-
 [node name="Level" type="Node3D" parent="." unique_id=1937750007]
-script = ExtResource("2_choun")
+script = ExtResource("4_55hpm")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Level" unique_id=1869777364]
 transform = Transform3D(0.9999987, 0.0002192102, -0.0016281038, -0.00022388666, 0.9999958, -0.0028803884, 0.0016274672, 0.0028807838, 0.9999945, -0.5565371, -1.0886445, -7.524439)
@@ -84,8 +80,16 @@ gizmo_extents = 1.5
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Marker3D4" unique_id=1514402395]
 mesh = SubResource("CylinderMesh_tbgi4")
 
-[node name="GameManager" type="Node3D" parent="." unique_id=72747073]
-script = ExtResource("1_ya4ey")
+[node name="Kraken" type="Node3D" parent="." unique_id=1699135001]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8.885094)
+script = ExtResource("3_saexs")
+tentacle_scene = ExtResource("4_7uedm")
+metadata/_custom_type_script = "uid://3t5mvj0dsc2v"
 
-[node name="Projectiles" type="Node3D" parent="GameManager" unique_id=373123140]
+[node name="KrakenLevel" type="Node3D" parent="." unique_id=1499216774]
+script = ExtResource("1_tjkq6")
+metadata/_custom_type_script = "uid://dju8b5rp5d0pq"
+
+[node name="Projectiles" type="Node3D" parent="." unique_id=681792657]
 unique_name_in_owner = true
