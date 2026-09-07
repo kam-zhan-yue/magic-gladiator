@@ -10,20 +10,42 @@ func _process_forwards_recursive(segments: Array[FabrikSegment], target_pos: Vec
 	var prev_pos := segments[index].position
 	segments[index].position = target_pos
 
-	var dir := target_pos.direction_to(prev_pos)
-	var next_pos := target_pos + dir * segments[index].length
-	_process_forwards_recursive(segments, next_pos, index - 1)
+	var difference := target_pos - prev_pos
+	var next_pos := target_pos - difference.normalized() * segments[index].length
+	if index == len(segments) - 1:
+		_process_forwards_recursive(segments, next_pos, index - 1)
+	else:
+		var angle_to_pos := prev_pos.angle_to(next_pos)
+		if angle_to_pos > segments[index].angle:
+			var direction := difference.normalized().rotated(Vector3.UP, segments[index].angle)
+			next_pos = target_pos + direction * segments[index].length
+		_process_forwards_recursive(segments, next_pos, index - 1)
 
 
 func _process_backwards_recursive(segments: Array[FabrikSegment], anchor_pos: Vector3, index: int) -> void:
 	if index >= len(segments):
 		return
-	var prev_pos = segments[index].position
+	var prev_pos := segments[index].position
 	segments[index].position = anchor_pos
 
-	var dir := anchor_pos.direction_to(prev_pos)
-	var next_pos := anchor_pos + dir * segments[index].length
+	var difference := anchor_pos - prev_pos
+	var next_pos := anchor_pos - difference.normalized() * segments[index].length
 	_process_backwards_recursive(segments, next_pos, index + 1)
+
+	if index == 0:
+		_process_backwards_recursive(segments, next_pos, index + 1)
+	else:
+		var angle_to_pos := prev_pos.angle_to(next_pos)
+		if angle_to_pos > segments[index].angle:
+			var direction := difference.normalized().rotated(Vector3.UP, segments[index].angle)
+			next_pos = anchor_pos + direction * segments[index].length
+		_process_backwards_recursive(segments, next_pos, index + 1)
+	# if difference.length() >+ segments[index].length:
+	# 	var next_pos := anchor_pos - difference.normalized() * segments[index].length
+	# 	_process_backwards_recursive(segments, next_pos, index + 1)
+	# else:
+	# 	var next_pos := anchor_pos - difference
+	# 	_process_backwards_recursive(segments, next_pos, index + 1)
 
 
 # func _process_forwards(target_pos: Vector3, segments: Array[FabrikSegment]) -> void:

@@ -28,9 +28,11 @@ func init() -> void:
 		fabrik.distance_constraint = distance_constraint
 		if i == segment_holder.get_child_count() - 1:
 			fabrik.length = 1.0
+			fabrik.angle = TAU
 		else:
 			var next_segment := segment_holder.get_child(i+1)
 			fabrik.length = next_segment.global_position.distance_to(fabrik.position)
+			fabrik.angle = fabrik.position.angle_to(next_segment.global_position)
 		fabrik_segments.append(fabrik)
 
 	_tentacle_segments = tentacle_segments
