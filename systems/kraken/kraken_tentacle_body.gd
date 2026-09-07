@@ -16,17 +16,22 @@ var _tentacle_segments: Array[KrakenTentacleSegment] = []
 var _fabrik_segments: Array[FabrikSegment] = []
 
 func init() -> void:
+	print("Inited Tentacle Segments")
 	var tentacle_segments: Array[KrakenTentacleSegment] = []
 	var fabrik_segments: Array[FabrikSegment] = []
 
-	for child in segment_holder.get_children():
-		if child is KrakenTentacleSegment:
-			var segment = child as KrakenTentacleSegment
-			tentacle_segments.append(segment)
-			var fabrik := FabrikSegment.new()
-			fabrik.position = segment.global_position
-			fabrik.distance_constraint = distance_constraint
-			fabrik_segments.append(fabrik)
+	for i in segment_holder.get_child_count():
+		var segment := segment_holder.get_child(i) as KrakenTentacleSegment
+		tentacle_segments.append(segment)
+		var fabrik := FabrikSegment.new()
+		fabrik.position = segment.global_position
+		fabrik.distance_constraint = distance_constraint
+		if i == segment_holder.get_child_count() - 1:
+			fabrik.length = 1.0
+		else:
+			var next_segment := segment_holder.get_child(i+1)
+			fabrik.length = next_segment.global_position.distance_to(fabrik.position)
+		fabrik_segments.append(fabrik)
 
 	_tentacle_segments = tentacle_segments
 	_fabrik_segments = fabrik_segments
@@ -41,7 +46,7 @@ func update(target_pos: Vector3, delta: float) -> void:
 		init()
 	var solver := FabrikSolver.new()
 	solver.solve(target_pos, global_position, _fabrik_segments)
-	_apply_wave(delta)
+	# _apply_wave(delta)
 	_update_tentacle()
 
 

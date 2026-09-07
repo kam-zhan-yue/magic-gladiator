@@ -91,7 +91,7 @@ unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_jiucf")
 
 [node name="Debug" type="Node3D" parent="KrakenTentacleBrain" unique_id=2121655908]
-transform = Transform3D(0.705, 0, 0, 0, 0.705, 0, 0, 0, 0.705, 0.45288774, 2.6936183, 3.5446777)
+transform = Transform3D(0.705, 0, 0, 0, 0.705, 0, 0, 0, 0.705, 4.7683716e-07, 4.2503123, 3.0765376)
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="KrakenTentacleBrain/Debug" unique_id=297092210]
 mesh = SubResource("SphereMesh_g3pgo")
@@ -102,16 +102,19 @@ unique_name_in_owner = true
 [node name="KrakenTentacleSegment2" parent="KrakenTentacleBrain/Segments" unique_id=1604159818 instance=ExtResource("3_e4lkp")]
 
 [node name="KrakenTentacleSegment" parent="KrakenTentacleBrain/Segments" unique_id=517982366 instance=ExtResource("3_e4lkp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02991076, 0.8329508, 0.55277205)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22023416, 0.97477806, 0.041951444)
 
 [node name="KrakenTentacleSegment3" parent="KrakenTentacleBrain/Segments" unique_id=1849912602 instance=ExtResource("3_e4lkp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.67436814, 1.5085423, 0.9401463)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25134984, 1.9018683, 0.4357087)
 
 [node name="KrakenTentacleSegment4" parent="KrakenTentacleBrain/Segments" unique_id=1929224016 instance=ExtResource("3_e4lkp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1278831, 2.0445452, 1.6864269)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20901039, 2.7212973, 0.79108036)
 
 [node name="KrakenTentacleSegment5" parent="KrakenTentacleBrain/Segments" unique_id=257679256 instance=ExtResource("3_e4lkp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7357777, 2.3792026, 2.598142)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6745054, 3.4112113, 1.3618734)
 
 [node name="KrakenTentacleSegment6" parent="KrakenTentacleBrain/Segments" unique_id=1314864507 instance=ExtResource("3_e4lkp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.37202916, 2.6830738, 3.486132)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5752239, 3.8818548, 2.2833524)
+
+[node name="KrakenTentacleSegment7" parent="KrakenTentacleBrain/Segments" unique_id=2060991310 instance=ExtResource("3_e4lkp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.035088826, 4.2368245, 3.0071602)
