@@ -2,6 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://dwt8km2ldudsw" path="res://systems/player/player.tscn" id="1_m3v17"]
 [ext_resource type="Script" uid="uid://djkcro20ld8mn" path="res://systems/levels/battle_test_level.gd" id="1_xpq4j"]
+[ext_resource type="Script" uid="uid://bm3g0o5sqpw1m" path="res://systems/abilities/ability_controller.gd" id="3_bmryc"]
+[ext_resource type="Script" uid="uid://drn2mh85wcbah" path="res://systems/abilities/ability_fire_punch.gd" id="4_5upv8"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xpq4j"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -32,3 +34,13 @@ size = Vector3(20, 0.1, 20)
 
 [node name="Player" parent="." unique_id=674897594 instance=ExtResource("1_m3v17")]
 unique_name_in_owner = true
+
+[node name="AbilityController" type="Node3D" parent="." unique_id=1850556660 node_paths=PackedStringArray("primary")]
+unique_name_in_owner = true
+script = ExtResource("3_bmryc")
+primary = NodePath("AbilityFirePunch")
+metadata/_custom_type_script = "uid://bm3g0o5sqpw1m"
+
+[node name="AbilityFirePunch" type="Node3D" parent="AbilityController" unique_id=186798632]
+script = ExtResource("4_5upv8")
+metadata/_custom_type_script = "uid://drn2mh85wcbah"
