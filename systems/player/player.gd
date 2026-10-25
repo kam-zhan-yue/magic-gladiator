@@ -18,8 +18,6 @@ extends CharacterBody3D
 @export var tilt_lower_limit := deg_to_rad(-90.0)
 @export var tilt_upper_limit := deg_to_rad(90.0)
 
-@onready var spell_caster := %SpellCaster as SpellCaster
-
 var _jumps = 0
 var _jump_requested: bool
 
@@ -32,7 +30,6 @@ var _camera_rotation: Vector3
 func init() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	_jumps = jump_count
-	spell_caster.init(self)
 
 func _unhandled_input(event: InputEvent) -> void:
 	var is_mouse_input = event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
