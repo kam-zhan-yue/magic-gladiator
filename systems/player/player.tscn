@@ -17,8 +17,13 @@ mesh = SubResource("CapsuleMesh_tbgi4")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=805977378]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_tefeu")
+debug_color = Color(0.972549, 0.16078432, 0, 0)
 
 [node name="PlayerCamera" type="Camera3D" parent="CollisionShape3D" unique_id=785830342]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.47341532, 0)
 script = ExtResource("2_ktl23")
+
+[node name="ShotOrigin" type="Node3D" parent="." unique_id=934347432]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.168255, -0.6106125)

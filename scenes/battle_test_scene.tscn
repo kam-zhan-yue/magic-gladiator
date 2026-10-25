@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://djkcro20ld8mn" path="res://systems/levels/battle_test_level.gd" id="1_xpq4j"]
 [ext_resource type="Script" uid="uid://bm3g0o5sqpw1m" path="res://systems/abilities/ability_controller.gd" id="3_bmryc"]
 [ext_resource type="Script" uid="uid://drn2mh85wcbah" path="res://systems/abilities/ability_fire_punch.gd" id="4_5upv8"]
+[ext_resource type="PackedScene" uid="uid://bfx8o8k0qg45j" path="res://systems/abilities/ability_fire_punch_effect.tscn" id="5_5upv8"]
+[ext_resource type="PackedScene" uid="uid://72kfmon2hjuv" path="res://systems/enemies/dummy_enemy.tscn" id="6_wbbn7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xpq4j"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -43,4 +45,10 @@ metadata/_custom_type_script = "uid://bm3g0o5sqpw1m"
 
 [node name="AbilityFirePunch" type="Node3D" parent="AbilityController" unique_id=186798632]
 script = ExtResource("4_5upv8")
+first_punch_effect = ExtResource("5_5upv8")
+second_punch_effect = ExtResource("5_5upv8")
+third_punch_effect = ExtResource("5_5upv8")
 metadata/_custom_type_script = "uid://drn2mh85wcbah"
+
+[node name="DummyEnemy" parent="." unique_id=192766939 instance=ExtResource("6_wbbn7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9584124, -2.096427)

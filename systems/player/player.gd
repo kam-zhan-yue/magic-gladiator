@@ -2,6 +2,7 @@ class_name Player
 extends CharacterBody3D
 
 @onready var camera := %PlayerCamera as PlayerCamera
+@onready var shot_origin := %ShotOrigin as Node3D
 
 @export_category("Movement Settings")
 @export var speed := 15.0

@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bfx8o8k0qg45j"]
+
+[ext_resource type="Script" uid="uid://djb5o47kycxpj" path="res://systems/abilities/ability_fire_punch_effect.gd" id="1_mgwvc"]
+[ext_resource type="Script" uid="uid://casq7jkh4262t" path="res://systems/framework/combat/damage_area.gd" id="2_pju6w"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ktl23"]
+
+[node name="AbilityFirePunchEffect" type="Node3D" unique_id=1389668163]
+script = ExtResource("1_mgwvc")
+damage_lifetime = 0.5
+effect_lifetime = 2.0
+
+[node name="DamageArea" type="Area3D" parent="." unique_id=1904701617]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.6686343)
+script = ExtResource("2_pju6w")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamageArea" unique_id=1919627441]
+shape = SubResource("BoxShape3D_ktl23")
+debug_color = Color(0, 0.6, 0.69803923, 1)

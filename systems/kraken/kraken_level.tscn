@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dwt8km2ldudsw" path="res://systems/player/player.tscn" id="2_saexs"]
 [ext_resource type="Script" uid="uid://3t5mvj0dsc2v" path="res://systems/kraken/kraken.gd" id="3_saexs"]
 [ext_resource type="PackedScene" uid="uid://cnt8hb2cenevc" path="res://systems/kraken/kraken_tentacle.tscn" id="4_7uedm"]
-[ext_resource type="Script" uid="uid://c782oaaum8vjk" path="res://systems/framework/hit_box.gd" id="4_55hpm"]
+[ext_resource type="Script" uid="uid://c782oaaum8vjk" path="res://systems/framework/combat/hit_box.gd" id="4_55hpm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0wfyh"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)

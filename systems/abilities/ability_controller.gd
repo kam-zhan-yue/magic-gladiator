@@ -6,7 +6,7 @@ extends Node3D
 var _player: Player
 var _inited := false
 
-var _primary_requested = true
+var _primary_requested = false
 
 func init() -> void:
 	_inited = true
